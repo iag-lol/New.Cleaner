@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Pool } from 'pg';
+import { Pool, QueryResult } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -15,7 +15,10 @@ export const pool = new Pool({
   connectionString,
 });
 
-export const query = (text: string, params?: any[]) => pool.query(text, params);
+export const query = async <T = any>(
+  text: string,
+  params?: any[]
+): Promise<QueryResult<T>> => pool.query<T>(text, params);
 
 export async function runMigrations() {
   const schemaPath = path.join(__dirname, '..', 'schema.sql');
