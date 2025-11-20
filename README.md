@@ -11,10 +11,11 @@ Aplicación full-stack (React + TypeScript + Tailwind en frontend, Express + Pos
 2. Provisiona la base de datos PostgreSQL y ejecuta el esquema:
    ```bash
    cd backend
-   psql \"$DATABASE_URL\" -f schema.sql
+   psql "$DATABASE_URL" -f schema.sql
    npm install
    npm run dev   # nodemon + ts-node
    ```
+   - Si tu Postgres exige SSL (Supabase/Render), añade `DB_SSL=true` o `PGSSLMODE=require` en el entorno.
 3. Endpoints principales:
    - `POST /api/users` y `GET /api/users`
    - `POST /api/registrations` (multipart: `imageFront`, `imageBack`) y `GET /api/registrations`
