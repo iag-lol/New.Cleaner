@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: #0f172a;
+  background: #f8fafc;
+}
+
+body {
+  margin: 0;
+}
+
+.glass {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.86);
+}

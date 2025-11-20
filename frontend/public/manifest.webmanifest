@@ -1,0 +1,16 @@
+{
+  "name": "Registro de Aseo de Buses",
+  "short_name": "Aseo Buses",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#1f324f",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    }
+  ]
+}
