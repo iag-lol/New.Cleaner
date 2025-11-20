@@ -6,6 +6,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const connectionString = process.env.DATABASE_URL;
+const useSSL =
+  process.env.PGSSLMODE === 'require' ||
+  process.env.PGSSLMODE === 'prefer' ||
+  process.env.DB_SSL === 'true';
 
 if (!connectionString) {
   throw new Error('DATABASE_URL is not set');
@@ -13,6 +17,7 @@ if (!connectionString) {
 
 export const pool = new Pool({
   connectionString,
+  ssl: useSSL ? { rejectUnauthorized: false } : undefined,
 });
 
 export const query = async <T extends QueryResultRow = QueryResultRow>(
