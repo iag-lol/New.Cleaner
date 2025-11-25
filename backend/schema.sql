@@ -1,8 +1,17 @@
 -- Enable required extensions if available (safe to ignore if already present)
 -- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TYPE IF NOT EXISTS user_role AS ENUM ('CLEANER', 'SUPERVISOR');
-CREATE TYPE IF NOT EXISTS task_status AS ENUM ('pending', 'done');
+DO $$ BEGIN
+    CREATE TYPE user_role AS ENUM ('CLEANER', 'SUPERVISOR');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE task_status AS ENUM ('pending', 'done');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
