@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import UserGate from './components/UserGate';
 import CleanerShell from './components/cleaner/CleanerShell';
 import SupervisorShell from './components/supervisor/SupervisorShell';
@@ -19,12 +20,22 @@ export default function App() {
   }, []);
 
   if (!user) {
-    return <UserGate onUserReady={setUser} />;
+    return (
+      <>
+        <UserGate onUserReady={setUser} />
+        <Toaster position="top-right" />
+      </>
+    );
   }
 
-  return user.role === 'CLEANER' ? (
-    <CleanerShell user={user} onSwitchUser={() => setUser(null)} />
-  ) : (
-    <SupervisorShell user={user} onSwitchUser={() => setUser(null)} />
+  return (
+    <>
+      {user.role === 'CLEANER' ? (
+        <CleanerShell user={user} onSwitchUser={() => setUser(null)} />
+      ) : (
+        <SupervisorShell user={user} onSwitchUser={() => setUser(null)} />
+      )}
+      <Toaster position="top-right" />
+    </>
   );
 }

@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { query } from '../db';
 import { uploadBuffer } from '../utils/storage';
 import { CleaningRecord } from '../types';
+import { eventManager } from '../events';
 
 const router = Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -60,7 +61,17 @@ router.post(
         ]
       );
 
-      res.status(201).json(inserted.rows[0]);
+      const record = inserted.rows[0];
+
+      const userResult = await query('SELECT name FROM users WHERE id = $1', [userId]);
+      const userName = userResult.rows[0]?.name || 'Unknown';
+
+      eventManager.emitNewRecord({
+        ...record,
+        user_name: userName,
+      });
+
+      res.status(201).json(record);
     } catch (error) {
       res.status(500).json({ message: 'Error creating cleaning record', error });
     }

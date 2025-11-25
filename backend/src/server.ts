@@ -9,6 +9,7 @@ import tasksRouter from './routes/tasks';
 import inspectionsRouter from './routes/inspections';
 import dashboardRouter from './routes/dashboard';
 import breaksRouter from './routes/breaks';
+import eventsRouter from './routes/events';
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use('/api/tasks', tasksRouter);
 app.use('/api/inspections', inspectionsRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/breaks', breaksRouter);
+app.use('/api/events', eventsRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ message: 'Not found' });
