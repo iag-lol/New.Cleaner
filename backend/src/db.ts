@@ -1,7 +1,11 @@
 import fs from 'fs';
 import path from 'path';
+import dns from 'dns';
 import { Pool, QueryResult, QueryResultRow } from 'pg';
 import dotenv from 'dotenv';
+
+// Force IPv4 resolution globally
+dns.setDefaultResultOrder('ipv4first');
 
 dotenv.config();
 
@@ -18,6 +22,7 @@ if (!connectionString) {
 export const pool = new Pool({
   connectionString,
   ssl: useSSL ? { rejectUnauthorized: false } : undefined,
+  connectionTimeoutMillis: 10000,
 });
 
 export const query = async <T extends QueryResultRow = QueryResultRow>(
