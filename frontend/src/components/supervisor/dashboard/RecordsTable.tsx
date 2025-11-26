@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchRecords, fetchUsers } from '../../../api';
 import { CleaningRecord, User } from '../../../types';
+import { useRealTimeEvents } from '../../../hooks/useRealTimeEvents';
 
 export default function RecordsTable() {
   const [records, setRecords] = useState<CleaningRecord[]>([]);
@@ -13,6 +14,7 @@ export default function RecordsTable() {
   const [cleaners, setCleaners] = useState<User[]>([]);
   const [selected, setSelected] = useState<CleaningRecord | null>(null);
   const [loading, setLoading] = useState(true);
+  const { subscribe } = useRealTimeEvents();
 
   async function load() {
     setLoading(true);
@@ -38,6 +40,13 @@ export default function RecordsTable() {
   useEffect(() => {
     load();
   }, [filters]);
+
+  useEffect(() => {
+    const unsubscribe = subscribe('NEW_RECORD', () => {
+      load();
+    });
+    return () => unsubscribe();
+  }, [subscribe, filters]);
 
   return (
     <section className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm space-y-4">
